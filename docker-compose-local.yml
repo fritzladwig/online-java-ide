@@ -50,7 +50,7 @@ services:
       GOOGLE_ID:
       GOOGLE_SECRET:
       GOOGLE_REDIRECT_URI: http://localhost:8000/api/auth/login/oauth2/code/google
-      GATEWAY_URL:
+#      GATEWAY_URL:
     container_name: authorization
     build:
       context: authorization
