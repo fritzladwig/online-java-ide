@@ -1,0 +1,116 @@
+services:
+  db:
+    container_name: sqlDatabase
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=my_db
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=test
+    networks:
+      - appNetwork
+
+  compiler:
+    environment:
+      EUREKA_SERVER: http://discovery:8761/eureka
+    container_name: compiler
+    build:
+      context: compiler
+      dockerfile: Dockerfile
+    ports:
+      - "8031-8040:8083"
+    depends_on:
+      - discovery
+    networks:
+      - appNetwork
+
+  discovery:
+    environment:
+      EUREKA_SERVER: http://discovery:8761/eureka
+    container_name: discovery
+    build:
+      context: discovery
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    networks:
+      - appNetwork
+
+  authorization:
+    volumes:
+      - ./env:/env
+    environment:
+      EUREKA_SERVER: http://discovery:8761/eureka
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: test
+      POSTGRES_URL: jdbc:postgresql://db:5432/my_db
+      RSA_PRIVATE: /env/auth/private.pem
+      RSA_PUBLIC: /env/auth/public.pem
+      GOOGLE_ID:
+      GOOGLE_SECRET:
+      GOOGLE_REDIRECT_URI: http://localhost:8000/api/auth/login/oauth2/code/google
+      GATEWAY_URL:
+    container_name: authorization
+    build:
+      context: authorization
+      dockerfile: Dockerfile
+    ports:
+      - "8041-8050:8081"
+    depends_on:
+      - discovery
+    links:
+      - db
+    networks:
+      - appNetwork
+
+  gateway:
+    environment:
+      EUREKA_SERVER: http://discovery:8761/eureka
+    container_name: gateway
+    build:
+      context: gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - discovery
+    networks:
+      - appNetwork
+
+  projects:
+    environment:
+      EUREKA_SERVER: http://discovery:8761/eureka
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: test
+      POSTGRES_URL: jdbc:postgresql://db:5432/my_db
+    container_name: projects
+    build:
+      context: projects
+      dockerfile: Dockerfile
+    ports:
+      - "8011-8020:8082"
+    depends_on:
+      - discovery
+    links:
+      - db
+    networks:
+      - appNetwork
+
+  ui:
+    environment:
+      EUREKA_SERVER: http://discovery:8761/eureka
+    container_name: ui
+    build:
+      context: ui
+      dockerfile: Dockerfile
+    ports:
+      - "8001-8010:8080"
+    depends_on:
+      - discovery
+    networks:
+      - appNetwork
+
+networks:
+  appNetwork:
+    driver: bridge

@@ -1,0 +1,40 @@
+<mat-expansion-panel [(expanded)]="expanded" class="mat-elevation-z0">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            <div class="title-content">
+                <div matTooltip="{{isDirty() ? 'Project needs to be saved before running' : 'No files to compile'}}"
+                     [matTooltipDisabled]="!isDirty() && isProjectSelected && !isCompiling() && !isProjectEmpty">
+                    <button class="run-btn"
+                            [disabled]="isDirty() || !isProjectSelected || isCompiling() || isProjectEmpty"
+                            mat-icon-button
+                            matTooltip="Run"
+                            (click)="onCompile(); $event.stopPropagation()">
+                        @if (isCompiling()) {
+                            <mat-spinner></mat-spinner>
+                        } @else {
+                            <mat-icon>play_arrow</mat-icon>
+                        }
+                    </button>
+                </div>
+                <input matInput
+                       class="args-input"
+                       [disabled]="!isProjectSelected"
+                       [(ngModel)]="args"
+                       placeholder="Command line args"
+                       (click)="$event.stopPropagation()"
+                       (keydown)="$event.stopPropagation()">
+            </div>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    @if (this.executionResult.stdout) {
+        <p style="font-family: Arial;">{{ this.executionResult.stdout }}</p>
+    }
+    @if (this.executionResult.stderr) {
+        <div class="error-message">
+            <p class="error-text"> {{this.executionResult.stderr }}</p>
+        </div>
+    }
+    @if (!this.executionResult.stdout && !this.executionResult.stderr) {
+        <p>Nothing to display yet.</p>
+    }
+</mat-expansion-panel>

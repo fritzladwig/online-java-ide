@@ -1,0 +1,73 @@
+<div class="container">
+    <mat-card class="login-card">
+        <mat-card-header>
+            <mat-card-title
+                    [ngStyle]="isError? {color: 'var(--mat-sys-error)'} : {}">
+                {{ this.message }}</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="form-fields" style="margin-top: 20px">
+                <mat-form-field appearance="outline"
+                                hideRequiredMarker="true"
+                                subscriptSizing="fixed">
+                    <mat-label>Username</mat-label>
+                    <input matInput
+                           [formControl]="username"
+                           required/>
+                    @if (username.invalid) {
+                        <mat-error>{{ usernameErrorMessage }}</mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field appearance="outline"
+                                hideRequiredMarker="true"
+                                subscriptSizing="fixed">
+                    <mat-label>Password</mat-label>
+                    <input matInput
+                           [formControl]="password"
+                           [type]="hide ? 'password' : 'text'"
+                           required/>
+                    @if (password.invalid) {
+                        <mat-error>{{ passwordErrorMessage }}</mat-error>
+                    }
+                    <button
+                            mat-icon-button
+                            matSuffix
+                            (click)="clickEvent($event)"
+                    >
+                        <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+
+        <mat-card-actions class="button-container">
+            <button mat-flat-button
+                    [disabled]="isWorking || this.username.invalid || this.password.invalid || this.username.value === '' || this.password.value === ''"
+                    (click)="onLogin()">
+                Login
+            </button>
+            <button mat-flat-button
+                    [disabled]="isWorking || this.username.invalid || this.password.invalid || this.username.value === '' || this.password.value === ''"
+                    (click)="onRegister()">
+                Register
+            </button>
+            <button mat-icon-button
+                    style="margin-left: auto"
+                    matTooltip="Login with Google"
+                    (click)="location.href='api/auth/oauth2/authorization/google'">
+                <img ngSrc="assets/public/google.svg"
+                     width="24"
+                     height="24"
+                     alt="Google Oauth"/>
+            </button>
+        </mat-card-actions>
+
+        @if(isWorking) {
+            <div class="loading-overlay">
+                <mat-spinner diameter="50"></mat-spinner>
+            </div>
+        }
+    </mat-card>
+</div>

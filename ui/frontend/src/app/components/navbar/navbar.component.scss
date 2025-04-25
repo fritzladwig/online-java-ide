@@ -1,0 +1,12 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .right-buttons {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    gap: 8px;
+  }
+}

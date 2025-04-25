@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>Choose a name</h2>
+<mat-dialog-content>
+    <mat-form-field appearance="outline"
+                    hideRequiredMarker="true"
+                    subscriptSizing="fixed"
+                    style="padding: 10px">
+        <mat-label>{{data.type}} name</mat-label>
+        <input matInput
+               [formControl]="newName"
+               (keydown.enter)="onConfirm()"
+               (keydown.escape)="onCancel()"
+               required/>
+        @if (newName.invalid) {
+            <mat-error>{{ errorMessage }}</mat-error>
+        }
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-flat-button (click)="onCancel()">Cancel</button>
+    <button mat-flat-button [disabled]="newName.invalid" (click)="onConfirm()">Confirm</button>
+</mat-dialog-actions>

@@ -1,0 +1,43 @@
+.container {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  .login-card {
+    margin: auto;
+    width: 400px;
+    position: relative;
+
+    .form-fields {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      background-color: rgba( 0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      border-radius: inherit;
+    }
+  }
+}

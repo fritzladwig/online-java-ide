@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: projects
+
+  datasource:
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
+    hibernate:
+      ddl-auto: update
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://authorization:8081/api/auth/.well-known/jwks.json
+
+logging:
+  level:
+    org:
+      Hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql: TRACE
+      springframework: INFO
+      security: TRACE
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER:http://discovery:8761/eureka}
+
+server:
+  port: ${PORT:8082}

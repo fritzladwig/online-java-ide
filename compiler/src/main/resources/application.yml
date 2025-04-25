@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: compiler
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://authorization:8081/api/auth/.well-known/jwks.json
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER:http://discovery:8761/eureka}
+
+server:
+  port: ${PORT:8083}

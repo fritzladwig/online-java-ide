@@ -1,0 +1,22 @@
+.title-content {
+  display: flex;
+  gap: 8px;
+
+  ::ng-deep .args-input:not(disabled)::placeholder {
+    color: var(--mat-sys-on-surface-variant) !important;
+  }
+
+  ::ng-deep .args-input:disabled::placeholder {
+    color: light-dark(rgb(84, 84, 84), rgb(170, 170, 170)) !important;
+  }
+}
+
+.error-message {
+  background-color: #ffdad6;
+
+.error-text {
+    color: #ba1a1a;
+    font-weight: bold;
+    font-family: Arial;
+  }
+}

@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: gateway
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: projects-service
+          uri: lb://projects
+          predicates:
+            - Path=/api/projects/**
+
+        - id: compiler-service
+          uri: lb://compiler
+          predicates:
+            - Path=/api/compile/**
+
+        - id: authorization-service
+          uri: lb://authorization
+          predicates:
+            - Path=/api/auth/**
+
+        - id: ui-service
+          uri: lb://ui
+          predicates:
+            - Path=/**
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://authorization:8081/api/auth/.well-known/jwks.json
+
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER:http://discovery:8761/eureka}
+
+server:
+  port: ${PORT:8000}

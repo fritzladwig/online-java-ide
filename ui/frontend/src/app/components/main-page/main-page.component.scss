@@ -1,0 +1,40 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 40px;
+}
+
+.navbar {
+  width: 100%;
+  flex-shrink: 0;
+  padding: 10px;
+  text-align: center;
+  box-sizing: border-box;
+  border-top: 1px var(--mat-sys-on-secondary-container) solid;
+  border-bottom: 1px var(--mat-sys-on-secondary-container) solid;
+}
+
+.editor {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.output {
+  width: 100%;
+  flex-shrink: 0;
+  overflow: auto;
+  border-top: 1px var(--mat-sys-on-secondary-container) solid;
+  border-bottom: 1px var(--mat-sys-on-secondary-container) solid;
+}

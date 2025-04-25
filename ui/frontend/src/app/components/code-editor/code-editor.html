@@ -1,0 +1,59 @@
+<div class="editor-window">
+    <div class="editor-header">
+        <mat-tab-group animationDuration=0
+                       [(selectedIndex)]="selectedTabIndex"
+                       (selectedTabChange)="onTabChange($event)"
+                       cdkDropList
+                       cdkDropListOrientation="horizontal"
+                       (cdkDropListDropped)="drop($event)"
+                       cdkDropListElementContainer=".mat-mdc-tab-labels"
+                       class="drag-tabs">
+            @for (file of selectedProject().sourceFiles; track file.id) {
+                <mat-tab [id]=file.id>
+                    <ng-template mat-tab-label>
+                        <div class="tab-content"
+                             cdkDrag
+                             cdkDragPreviewClass="drag-tab-preview"
+                             cdkDragRootElement=".mat-mdc-tab">
+                            <span class="file-name">
+                                {{ file.name }}
+                            </span>
+
+                            <button matTooltip="Change name"
+                                    class="small-icon-btn"
+                                    style="margin-left: 20px"
+                                    (click)="onRenameFile(file.name)"
+                                    mat-icon-button>
+                                <mat-icon>edit</mat-icon>
+                            </button>
+
+                            <button matTooltip="Delete"
+                                    class="small-icon-btn"
+                                    (click)="onDeleteFile($event, file.name)"
+                                    mat-icon-button>
+                                <mat-icon>close</mat-icon>
+                            </button>
+
+                            <span class="drag-tab-preview" *cdkDragPreview>{{ file.name }}</span>
+                        </div>
+                    </ng-template>
+                </mat-tab>
+            }
+        </mat-tab-group>
+
+        <div matTooltip="{{selectedProject().id=='' ? 'No project selected' : 'Create new file'}}">
+            <button class="add-file-button"
+                    [disabled]="selectedProject().id == ''"
+                    (click)="onCreateNewFile()"
+                    mat-icon-button>
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+    </div>
+    <ngx-monaco-editor
+            class="monaco"
+            [options]="editorOptions()"
+            (ngModelChange)="this.editorContent.set($event)"
+            [ngModel]="this.editorContent()"
+    ></ngx-monaco-editor>
+</div>

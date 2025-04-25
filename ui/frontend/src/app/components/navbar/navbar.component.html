@@ -1,0 +1,70 @@
+<div class="navbar">
+    <mat-form-field>
+        <mat-label>Your Projects</mat-label>
+        <mat-select [(value)]="selectedProjectId"
+                    (selectionChange)="onSelectProject($event.value)"
+                    (openedChange)="onOpenMenu($event)">
+            @for (project of currentProjectsList(); track project.id) {
+                <mat-option [value]="project.id">
+                    {{ project.name }}
+                </mat-option>
+            }
+        </mat-select>
+    </mat-form-field>
+
+    <button mat-icon-button
+            matTooltip="Create new project"
+            (click)="onCreateNewProject()">
+        <mat-icon>add_circle</mat-icon>
+    </button>
+
+    <div matTooltip="No project selected"
+         [matTooltipDisabled]="!(this.selectedProjectId === '')">
+        <button mat-icon-button
+                matTooltip="Change project name"
+                [disabled]="this.selectedProjectId === ''"
+                (click)="onEditProjectName()">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </div>
+
+    <div matTooltip="No project selected"
+         [matTooltipDisabled]="!(this.selectedProjectId === '')">
+        <button mat-icon-button
+                matTooltip="Delete this project"
+                [disabled]="this.selectedProjectId === ''"
+                (click)="onDeleteProject()">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+
+    <div matTooltip="No project selected"
+         [matTooltipDisabled]="!(this.selectedProjectId === '')">
+        <button mat-icon-button
+                matTooltip="Save"
+                [disabled]="this.selectedProjectId === '' || isSaving()"
+                (click)="onSave()">
+            @if (isSaving()) {
+                <mat-spinner></mat-spinner>
+            } @else {
+                <mat-icon>save</mat-icon>
+            }
+        </button>
+    </div>
+
+    <div class="right-buttons">
+        <button mat-icon-button
+                matTooltip="Logout"
+                (click)="onLogout()">
+            <mat-icon>logout</mat-icon>
+        </button>
+
+        <mat-icon>light_mode</mat-icon>
+        <mat-slide-toggle
+                (change)="onToggleDarkMode($event)"
+                [checked]="this.darkModeService.currentTheme() == 'dark'"
+                hideIcon="true"
+        ></mat-slide-toggle>
+        <mat-icon>dark_mode</mat-icon>
+    </div>
+</div>
