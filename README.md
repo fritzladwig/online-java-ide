@@ -1,6 +1,6 @@
 # Online Java IDE
 
-https://github.com/user-attachments/assets/365d417a-c743-4ffd-af82-1362db969913
+https://github.com/user-attachments/assets/b70b254d-dafd-4998-aaf1-9eef0b519b08
 
 6 Microservices:
 - Authorization - Distributes and validates JWT tokens. OAUTH2 tokens by external providers are replaced with its own tokens.
